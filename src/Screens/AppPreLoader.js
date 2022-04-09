@@ -13,6 +13,7 @@ export default class AppPreLoader extends Component {
 	}
 }
 
+
 const styles = StyleSheet.create({
 	preloader: {
 		flex: 1,

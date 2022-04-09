@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import { View, Text, Image, ImageBackground, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
-
+import Animated from 'react-native-reanimated';
 import img from '../../images/home/jumping_jacks.gif'
 
 
 const Activity = (props) => {
   var prop = props.route.params;
+  console.log(prop)
 
   const renderTime = ({ remainingTime, elapsedTime }) => {
     return (
       <View>
         {
           count == 0 ?
-            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>{remainingTime}</Text>
-            :
-            <View style={{ alignItems: 'center' }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 20 }}>{remainingTime}</Text>
+          :
+          <View style={{ alignItems: 'center' }}>
               <Text>time remaining</Text>
               <Text style={{ fontWeight: 'bold', fontSize: 20 }}>00:{remainingTime}</Text>
-            </View>
+          </View>
         }
       </View>
     );
@@ -38,7 +39,7 @@ const Activity = (props) => {
   }
 
 
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(1)
   const [start, setStart] = useState(true)
   const [time, setTime] = useState(data.duration)
   const [playing, setPlaying] = useState(true)
@@ -120,7 +121,7 @@ const Activity = (props) => {
               <CountdownCircleTimer
                 onComplete={() => (setCount(count + 1), [start, 1000])}
                 isPlaying={playing}
-                initialRemainingTime={10}
+                // initialRemainingTime={10}
                 duration={time}
                 colors={[["#469433", 0.5], ["#007fcb"]]}
                 size={150}
@@ -161,4 +162,3 @@ const Activity = (props) => {
 }
 
 export default Activity;
-
