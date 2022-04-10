@@ -49,9 +49,9 @@ const Category = ({ navigation, route }) => {
             <TouchableOpacity onPress={()=>navigation.navigate('CatogaryDetail',{data:veg, title1:route.params.cat, title2:'veg'})} style={styles.btn}>
               <Text style={styles.btnTxt}>Veg</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>navigation.navigate('CatogaryDetail',{data:nonVeg, title1:route.params.cat, title2:'non-veg'})} style={styles.btn}>
+            {/* <TouchableOpacity onPress={()=>navigation.navigate('CatogaryDetail',{data:nonVeg, title1:route.params.cat, title2:'non-veg'})} style={styles.btn}>
               <Text style={styles.btnTxt}>Non-Veg</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity onPress={()=>navigation.navigate('CatogaryDetail',{data:vegan, title1:route.params.cat, title2:'vegan'})} style={styles.btn}>
               <Text style={styles.btnTxt}>Vegan</Text>
             </TouchableOpacity>

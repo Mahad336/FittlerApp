@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Dimensions, View, Text, SafeAreaView, StyleSheet, Image, Animated, ScrollView, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'
-import Img from '../../images/logo/logo_png_name.png'
 import { TouchableOpacity } from 'react-native';
 import { useState, useRef } from 'react';
 import { transform } from '@babel/core';
@@ -73,8 +72,8 @@ export default function Main({ navigation }) {
           alignItems: 'center',
         }}>
           {/* -----------------Drawer navigation Logo portion------------------ */}
-          {/* <Image source={Img} style={{ width: '100%', height: 140, resizeMode: 'contain' }} /> */}
-          <Text style={{ width: '100%', height: 140, alignSelf: 'center',color: 'black'}} >Fittler App Logo</Text>
+          <Image source={require('../../assets/images/logoT.png')} style={{ width: '100%', height: 140, resizeMode: 'contain' }} />
+          {/* <Text style={{ width: '100%', height: 140, alignSelf: 'center',color: 'black'}} >Fittler App Logo</Text> */}
         </View>
         <View style={{ flexGrow: 1, marginTop: 30 }}>
           {TabBtns(currentTab, setCurrentTab, "Workouts", workout, navigation, Drawer)}
@@ -159,20 +158,12 @@ export default function Main({ navigation }) {
           </View>
           {/* Home Screen Logo */}
 
-          {/* <Image source={require('../../images/logo/logo_png_name.png')} style={{
+          <Image source={require('../../assets/images/logoT.png')} style={{
             width: "50%",
             height: '38%',
             resizeMode: 'contain'
-          }} /> */}
-          <Text
-            style={{
-              width: "50%",
-              height: '38%',
-            color:'black', 
-            alignSelf: 'center'
-             
-            }}
-          >Home Screen Fittler Logo </Text>
+          }} />
+      
           {/* -----------------Home Screen Buttons----------------- */}
           <ScrollView>
             <TouchableOpacity onPress={() => {
@@ -256,7 +247,7 @@ export default function Main({ navigation }) {
               </View>
             </TouchableOpacity>
 
-            {/* <TouchableOpacity onPress={() => {
+            <TouchableOpacity onPress={() => {
               if (showMenu) {
                 Drawer();
               }
@@ -267,7 +258,7 @@ export default function Main({ navigation }) {
                 <Text style={styles.cardTxt}>Smart Recommendations</Text>
                 <Icon name="chevron-forward-circle" size={25} color="#469433" />
               </View>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
           </ScrollView>
 
 
