@@ -5,6 +5,8 @@ import { TouchableOpacity } from 'react-native';
 import { useState, useRef } from 'react';
 import { transform } from '@babel/core';
 import auth from '@react-native-firebase/auth';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import LogoutButtomSheet from '../../components/LogoutButtomSheet/LogoutButtomSheet';
 
 // images
 import workout from '../../images/workouts.png'
@@ -15,9 +17,11 @@ import water from '../../images/water.png'
 import chat from '../../images/quotes.png'
 import logout from '../../images/logout.png'
 import Mental from '../../images/mentalHealth.png'
+import userIcon from '../../images/user_icon.png'
 
 
 export default function Main({ navigation }) {
+
 
 
   const Drawer = () => {
@@ -82,6 +86,8 @@ export default function Main({ navigation }) {
           {TabBtns(currentTab, setCurrentTab, "Water", water, navigation, Drawer)}
           {TabBtns(currentTab, setCurrentTab, "BMI", bmi, navigation, Drawer)}
           {TabBtns(currentTab, setCurrentTab, "Footsteps Counter", foot, navigation, Drawer)}
+          {TabBtns(currentTab, setCurrentTab, "Profile", userIcon, navigation, Drawer)}
+       
           {/* {TabBtns(currentTab, setCurrentTab, "Smart Recommendations", chat, navigation, Drawer)} */}
         </View>
         <View>
@@ -246,6 +252,7 @@ export default function Main({ navigation }) {
                 <Icon name="chevron-forward-circle" size={25} color="#469433" />
               </View>
             </TouchableOpacity>
+            
 
             <TouchableOpacity onPress={() => {
               if (showMenu) {
@@ -264,6 +271,7 @@ export default function Main({ navigation }) {
 
         </Animated.View>
       </Animated.View>
+     
     </SafeAreaView>
   );
 }
@@ -327,12 +335,15 @@ const styles = StyleSheet.create({
 
 // Navigation buttons...
 const TabBtns = (currentTab, setCurrentTab, title, image, navigation, Drawer) => {
+  const refRBSheet = useRef();
+  const rbsheetOpen = () => {
+    refRBSheet.current.open();
+  };
   return (
+    <>
     <TouchableOpacity onPress={() => {
       if (title == "LogOut") {
-        auth()
-          .signOut()
-          .then(() => console.log('User signed out!'));
+        rbsheetOpen()
       } else {
         Drawer();
         navigation.navigate(title)
@@ -357,5 +368,26 @@ const TabBtns = (currentTab, setCurrentTab, title, image, navigation, Drawer) =>
         >{title}</Text>
       </View>
     </TouchableOpacity>
+    <RBSheet
+            ref={refRBSheet}
+            keyboardAvoidingViewEnabled={true}
+            closeOnDragDown={true}
+            closeOnPressMask={false}
+            customStyles={{
+              wrapper: {backgroundColor: 'rgba(0,0,0,0.4)'},
+              draggableIcon: {backgroundColor: '#D7DADF'},
+              container: {
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+                backgroundColor: '#FFFFFF',
+                height: 273,
+              },
+            }}>
+            <LogoutButtomSheet
+              onPress={() => refRBSheet.current.close()}
+              cancel={() => refRBSheet.current.close()}
+            />
+          </RBSheet>
+    </>
   )
 }

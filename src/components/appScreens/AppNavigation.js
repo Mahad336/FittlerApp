@@ -15,6 +15,8 @@ import database from '@react-native-firebase/database';
 import MentalHealth from './MentalHealth/MentalHealth';
 import Meditation from './MentalHealth/Meditation';
 import Quotes from './MentalHealth/Quotes';
+import Profile from '../../Screens/Profile/profile';
+import EditProfile from '../../Screens/EditProfile/EditProfile';
 
 
 
@@ -54,6 +56,9 @@ export default function AppNavigation({initialParams}) {
         <Stack.Screen name="MentalHealth" component={MentalHealth} options={{title:'Mental Health'}}/>
         <Stack.Screen name="Meditation" component={Meditation} options={{title:'Meditation Techniques'}}/>
         <Stack.Screen name="Quotes" component={Quotes} options={{title:'Quotes'}}/>
+        <Stack.Screen name="Profile" component={Profile} options={{title:'Profile'}}/>
+        <Stack.Screen name="EditProfile" component={EditProfile} options={{title:'Edit Profile'}}/>
+        
     </Stack.Navigator>
   );
 }
