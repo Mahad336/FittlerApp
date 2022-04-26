@@ -3,14 +3,14 @@ import { StyleSheet, View, Image, Text, TouchableOpacity, ScrollView } from 'rea
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Input } from 'react-native-elements';
 import auth from '@react-native-firebase/auth';
-// import AppPreLoader from '../appScreens/AppPreLoader';
+import AppPreLoader from '../AppPreLoader';
 
 const SignIn = ({ navigation }) => {
 
   const [Email, SetEmail] = useState("");
   const [Password, SetPassword] = useState("");
   const [msg, setMsg] = useState();
-  // const [loader, setLoader] = useState(false)
+  const [loader, setLoader] = useState(false)
 
   const [emailStyle, setEmailStyle] = useState({
     lable: {
@@ -37,18 +37,20 @@ const SignIn = ({ navigation }) => {
 
 
   const signin = () => {
-    // setLoader(true)
+    setLoader(true)
     if(Email===""||Email===undefined||Email===null||Password===""||Password===null||Password===undefined){
+      setLoader(false)
       alert("please fill All Information")
     }else{
       auth()
       .signInWithEmailAndPassword(Email, Password)
       .then(() => {
         console.log('User account signed in!');
+        setLoader(false)
         // setWrongAlert('signed in!')
       })
       .catch(error => {
-        // setLoader(false)
+        setLoader(false)
         if (error.code === 'auth/user-not-found') {
           setMsg("There is no user record corresponding to this email")
         }
@@ -70,11 +72,11 @@ const SignIn = ({ navigation }) => {
  
   }
 
-  // if (loader) {
-  //   return (
-  //     <AppPreLoader />
-  //   )
-  // }
+  if (loader) {
+    return (
+      <AppPreLoader />
+    )
+  }
 
   return (
     <ScrollView>

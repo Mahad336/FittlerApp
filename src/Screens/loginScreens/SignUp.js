@@ -3,7 +3,7 @@ import { StyleSheet, View, Image, Text, TouchableOpacity, ScrollView, } from 're
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Input } from 'react-native-elements';
 import auth from '@react-native-firebase/auth';
-import AppPreLoader from '../../components/appScreens/AppPreLoader';
+import AppPreLoader from '../AppPreLoader';
 import { RadioButton } from 'react-native-paper';
 
 
@@ -15,7 +15,7 @@ const SignUp = ({ navigation }) => {
   const [Password, SetPassword] = useState("");
   const [Password2, SetPassword2] = useState("");
   const [wrongAlert, setWrongAlert] = useState("");
-  // const [loader, setLoader] = useState(false)
+  const [loader, setLoader] = useState(false)
 
 
   const [name, setName] = useState({
@@ -64,9 +64,9 @@ const SignUp = ({ navigation }) => {
 
 
   const signup = () => {
-    // setLoader(true)
+    setLoader(true)
     if (Password2 != Password) {
-      //   setLoader(false)
+        setLoader(false)
       setConfirmPassword({
         lable: { color: 'red', fontSize: 14 },
         container: { borderBottomColor: 'red', borderBottomWidth: 1 }
@@ -78,16 +78,16 @@ const SignUp = ({ navigation }) => {
       auth()
         .createUserWithEmailAndPassword(Email, Password)
         .then((res) => {
-          //   setLoader(false)
-          // res.user.updateProfile({
-          //   displayName: Name,
-          //   photoURL: userType,
-          // })
+            setLoader(false)
+          res.user.updateProfile({
+            displayName: Name,
+            photoURL: userType,
+            userInfo: ''
+          })
           setWrongAlert('User account created & signed in!')
-
         })
         .catch(error => {
-          //   setLoader(false)
+            setLoader(false)
           if (error.code === 'auth/email-already-in-use') {
             setWrongAlert('That email address is already in use!')
           }
@@ -108,11 +108,11 @@ const SignUp = ({ navigation }) => {
 
   }
 
-  //   if (loader) {
-  //     return (
-  //       <AppPreLoader />
-  //     )
-  //   }
+    if (loader) {
+      return (
+        <AppPreLoader />
+      )
+    }
 
   return (
     <ScrollView>
