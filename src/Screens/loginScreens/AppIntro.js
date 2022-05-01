@@ -28,7 +28,7 @@ const Intro = ({navigation}) => {
         <View style={styles.bottomview}>
           <Text style={styles.rendertext2}>Already have an account?</Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('login')}
+            onPress={() => navigation.navigate('SignIn')}
             style={styles.renderview}>
             <Text style={styles.rendertext3}>Login</Text>
           </TouchableOpacity>

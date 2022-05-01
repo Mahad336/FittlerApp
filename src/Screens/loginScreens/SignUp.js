@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, Text, TouchableOpacity, ScrollView, } from 'react-native';
+import { StyleSheet, View, Image, Text, TouchableOpacity, ScrollView, TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Input } from 'react-native-elements';
 import auth from '@react-native-firebase/auth';
 import AppPreLoader from '../AppPreLoader';
 import { RadioButton } from 'react-native-paper';
 
 
+
 const SignUp = ({ navigation }) => {
 
-  const [userType, setUserType] = React.useState('user');
+  const [userType, setUserType] = React.useState('male');
   const [Name, SetName] = useState("");
   const [Email, SetEmail] = useState("");
   const [Password, SetPassword] = useState("");
@@ -66,7 +68,7 @@ const SignUp = ({ navigation }) => {
   const signup = () => {
     setLoader(true)
     if (Password2 != Password) {
-        setLoader(false)
+      setLoader(false)
       setConfirmPassword({
         lable: { color: 'red', fontSize: 14 },
         container: { borderBottomColor: 'red', borderBottomWidth: 1 }
@@ -78,7 +80,7 @@ const SignUp = ({ navigation }) => {
       auth()
         .createUserWithEmailAndPassword(Email, Password)
         .then((res) => {
-            setLoader(false)
+          setLoader(false)
           res.user.updateProfile({
             displayName: Name,
             photoURL: userType,
@@ -87,7 +89,7 @@ const SignUp = ({ navigation }) => {
           setWrongAlert('User account created & signed in!')
         })
         .catch(error => {
-            setLoader(false)
+          setLoader(false)
           if (error.code === 'auth/email-already-in-use') {
             setWrongAlert('That email address is already in use!')
           }
@@ -108,11 +110,11 @@ const SignUp = ({ navigation }) => {
 
   }
 
-    if (loader) {
-      return (
-        <AppPreLoader />
-      )
-    }
+  if (loader) {
+    return (
+      <AppPreLoader />
+    )
+  }
 
   return (
     <ScrollView>
@@ -141,27 +143,27 @@ const SignUp = ({ navigation }) => {
             }
           />
 
-{/* <Text style={{ width: '90%', textAlign: 'left', marginLeft: -10, fontWeight: 'bold', color: 'gray', marginBottom: 5 }}>User Type</Text>
+          <Text style={{ width: '90%', textAlign: 'left', marginLeft: -10, fontWeight: 'bold', color: 'gray', marginBottom: 5 }}>What is Your Gender</Text>
           <View style={{ flexDirection: 'row', marginBottom: 40, justifyContent: 'flex-end', width: '93%', borderBottomWidth: 1, borderColor: 'gray' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 30 }}>
-              <Text style={{ color: 'black', fontSize: 13 }}>User</Text>
+              <Text style={{ color: 'black', fontSize: 13 }}>Male</Text>
               <RadioButton
                 color="#007fcb"
-                value="user"
-                status={userType === 'user' ? 'checked' : 'unchecked'}
-                onPress={() => setUserType('user')}
+                value="male"
+                status={userType === 'male' ? 'checked' : 'unchecked'}
+                onPress={() => setUserType('male')}
               />
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={{ color: 'black', fontSize: 13 }}>Expert</Text>
+              <Text style={{ color: 'black', fontSize: 13 }}>Female</Text>
               <RadioButton
                 color="#007fcb"
-                value="expert"
-                status={userType === 'expert' ? 'checked' : 'unchecked'}
-                onPress={() => setUserType('expert')}
+                value="female"
+                status={userType === 'female' ? 'checked' : 'unchecked'}
+                onPress={() => setUserType('female')}
               />
             </View>
-          </View> */}
+          </View>
 
 
 
@@ -229,6 +231,91 @@ const SignUp = ({ navigation }) => {
               />
             }
           />
+          <Input
+            inputStyle={{ fontSize: 13, }}
+            inputContainerStyle={{ height: 40, ...confirmPassword.container }}
+            placeholder="5'9"
+            label="What is Your Height"
+            // value={Password2}
+            secureTextEntry
+            labelStyle={confirmPassword.lable}
+            // onChangeText={(t) => SetPassword2(t)}
+            // onFocus={() => setConfirmPassword({ lable: { color: '#007fcb', fontSize: 14 }, container: { borderBottomColor: '#007fcb', borderBottomWidth: 2 } })}
+            // onBlur={() => setConfirmPassword({ lable: { color: 'gray', fontSize: 14 }, container: { borderBottomColor: 'gray', borderBottomWidth: 1 } })}
+            containerStyle={{ ...styles.inputContainer, marginBottom: 10 }}
+            rightIcon={
+              <Icon
+                name='human-male-height'
+                size={24}
+                color='#007fcb'
+              />
+            }
+          />
+          <Input
+            inputStyle={{ fontSize: 13, }}
+            inputContainerStyle={{ height: 40, ...confirmPassword.container }}
+            placeholder="weight"
+            label="What is your Current Weight in KG"
+            // value={Password2}
+            secureTextEntry
+            labelStyle={confirmPassword.lable}
+            // onChangeText={(t) => SetPassword2(t)}
+            // onFocus={() => setConfirmPassword({ lable: { color: '#007fcb', fontSize: 14 }, container: { borderBottomColor: '#007fcb', borderBottomWidth: 2 } })}
+            // onBlur={() => setConfirmPassword({ lable: { color: 'gray', fontSize: 14 }, container: { borderBottomColor: 'gray', borderBottomWidth: 1 } })}
+            containerStyle={{ ...styles.inputContainer, marginBottom: 10 }}
+            rightIcon={
+              <FontAwesome5
+                name='weight'
+                size={24}
+                color='#007fcb'
+              />
+            }
+          />
+          <Input
+            inputStyle={{ fontSize: 13, }}
+            inputContainerStyle={{ height: 40, ...confirmPassword.container }}
+            placeholder="weight"
+            label="What is your Goal Weight in KG"
+            // value={Password2}
+            secureTextEntry
+            labelStyle={confirmPassword.lable}
+            // onChangeText={(t) => SetPassword2(t)}
+            // onFocus={() => setConfirmPassword({ lable: { color: '#007fcb', fontSize: 14 }, container: { borderBottomColor: '#007fcb', borderBottomWidth: 2 } })}
+            // onBlur={() => setConfirmPassword({ lable: { color: 'gray', fontSize: 14 }, container: { borderBottomColor: 'gray', borderBottomWidth: 1 } })}
+            containerStyle={{ ...styles.inputContainer, marginBottom: 10 }}
+            rightIcon={
+              <FontAwesome5
+                name='weight'
+                size={24}
+                color='#007fcb'
+              />
+            }
+          />
+          <Input
+            inputStyle={{ fontSize: 13, }}
+            inputContainerStyle={{ height: 40, ...confirmPassword.container }}
+            placeholder="65..."
+            label="What is your Age in Years"
+            // value={Password2}
+            secureTextEntry
+            labelStyle={confirmPassword.lable}
+            // onChangeText={(t) => SetPassword2(t)}
+            // onFocus={() => setConfirmPassword({ lable: { color: '#007fcb', fontSize: 14 }, container: { borderBottomColor: '#007fcb', borderBottomWidth: 2 } })}
+            // onBlur={() => setConfirmPassword({ lable: { color: 'gray', fontSize: 14 }, container: { borderBottomColor: 'gray', borderBottomWidth: 1 } })}
+            containerStyle={{ ...styles.inputContainer, marginBottom: 10 }}
+            rightIcon={
+              <Icon
+                name='human-queue'
+                size={24}
+                color='#007fcb'
+              />
+            }
+          />
+          {/* <TextInput
+            multiline={true} 
+            numberOfLines={4}
+            style={{backgroundColor:'red',width:'90%',textAlignVertical: 'top',}}
+          /> */}
           <Text style={{ color: 'red', fontSize: 10, marginBottom: 20 }}>{wrongAlert}</Text>
 
         </View>
