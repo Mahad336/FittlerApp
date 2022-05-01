@@ -1364,6 +1364,16 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-14.7.0.tgz#05fbbae0f07e13360329b5b8069a6044a951afab"
   integrity sha512-7kCt70Yq9WPgbvpaA5hKJQSCP9J/cetTp1lwEoV3WJ6aVvOqoK1T9vIfQed66AjaHR/vf1WTCUpL4rPPZqwCTg==
 
+"@react-native-firebase/firestore@^14.9.1":
+  version "14.9.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-14.9.1.tgz#1dee9c1a31204194d3feae1f9a6e83384c2481e0"
+  integrity sha512-ZrrO0oy1XWZUn6ShtVJABy/SUs90io/faKP3mJ6iE1hq99OJy8NjtEFQUelGVzZ4dRTTv3kRH8En8KKopdvgHw==
+
+"@react-native-firebase/storage@^14.9.1":
+  version "14.9.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-14.9.1.tgz#1e77301bb6263232c1026b36f200c99ae860e827"
+  integrity sha512-6tBCv3h/eYG2yQUzYqyZIP7yCMcwwpYxKiWnbBShkpAQ6INssC5l1I5x0jSCiQvpWWdKEPlTEF46Bs5eyEKaYg==
+
 "@react-native-picker/picker@^1.8.3":
   version "1.16.8"
   resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-1.16.8.tgz#2126ca54d4a5a3e9ea5e3f39ad1e6643f8e4b3d4"
@@ -1490,6 +1500,16 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@redux-saga/types/-/types-1.1.0.tgz#0e81ce56b4883b4b2a3001ebe1ab298b84237204"
   integrity sha512-afmTuJrylUU/0OtqzaRkbyYFFNgCF73Bvel/sw90pvGrWIZ+vyoIJqA6eMSoA6+nb443kTmulmBtC9NerXboNg==
+
+"@reduxjs/toolkit@^1.8.1":
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/@reduxjs/toolkit/-/toolkit-1.8.1.tgz#94ee1981b8cf9227cda40163a04704a9544c9a9f"
+  integrity sha512-Q6mzbTpO9nOYRnkwpDlFOAbQnd3g7zj7CtHAZWz5SzE5lcV97Tf8f3SzOO8BoPOMYBFgfZaqTUZqgGu+a0+Fng==
+  dependencies:
+    immer "^9.0.7"
+    redux "^4.1.2"
+    redux-thunk "^2.4.1"
+    reselect "^4.1.5"
 
 "@sideway/address@^4.1.3":
   version "4.1.4"
@@ -2771,6 +2791,11 @@ decode-uri-component@^0.2.0:
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
   integrity sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=
 
+deep-diff@^0.3.5:
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/deep-diff/-/deep-diff-0.3.8.tgz#c01de63efb0eec9798801d40c7e0dae25b582c84"
+  integrity sha1-wB3mPvsO7JeYgB1Ax+Da4ltYLIQ=
+
 deep-is@^0.1.3, deep-is@~0.1.3:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.4.tgz#a6f2dce612fadd2ef1f519b73551f17e85199831"
@@ -3818,6 +3843,11 @@ image-size@^0.6.0:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.6.3.tgz#e7e5c65bb534bd7cdcedd6cb5166272a85f75fb2"
   integrity sha512-47xSUiQioGaB96nqtp5/q55m0aBQSQdyIloMOc/x+QVTDZLNmXE892IIDrJ0hM1A5vcNUDD5tDffkSP5lCaIIA==
+
+immer@^9.0.7:
+  version "9.0.12"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.12.tgz#2d33ddf3ee1d247deab9d707ca472c8c942a0f20"
+  integrity sha512-lk7UNmSbAukB5B6dh9fnh5D0bJTOFKxVg2cyJWTYrWRfhLrLMBquONcUs3aFq507hNoIZEDDh8lb8UtOizSMhA==
 
 import-fresh@^2.0.0:
   version "2.0.0"
@@ -6154,6 +6184,11 @@ react-native-tab-view@^3.1.1:
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-3.1.1.tgz#1f8d7a835ab4f5b1b1407ec8dddc1053b53fa3c6"
   integrity sha512-M5pRN6utQfytKWoKlKVzg5NbkYu308qNoW1khGTtEOTs1k14p2dHJ/BWOJoJYHKbPVUyZldbG9MFT7gUl4YHnw==
 
+react-native-toast-message@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-toast-message/-/react-native-toast-message-2.1.5.tgz#550acb9c6c0f1ee49c6b57b65a56d34e297eb723"
+  integrity sha512-mk3rELtBEhrhWBCN6CTaw0gypgL9ZNauX3xx1LUs4uee9vc0pVsghrKxO57vroUCcNL2hDeZSLJWdQNMCkGeaQ==
+
 react-native-vector-icons@^9.1.0:
   version "9.1.0"
   resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-9.1.0.tgz#52eaa205f5954d567b7048eb93d58ac854a2c59e"
@@ -6293,6 +6328,18 @@ recast@^0.20.3:
     source-map "~0.6.1"
     tslib "^2.0.1"
 
+redux-logger@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/redux-logger/-/redux-logger-3.0.6.tgz#f7555966f3098f3c88604c449cf0baf5778274bf"
+  integrity sha1-91VZZvMJjzyIYExEnPC69XeCdL8=
+  dependencies:
+    deep-diff "^0.3.5"
+
+redux-persist@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-6.0.0.tgz#b4d2972f9859597c130d40d4b146fecdab51b3a8"
+  integrity sha512-71LLMbUq2r02ng2We9S215LtPu3fY0KgaGE0k8WRgl6RkqxtGfl7HUozz1Dftwsb0D/5mZ8dwAaPbtnzfvbEwQ==
+
 redux-saga@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-1.1.3.tgz#9f3e6aebd3c994bbc0f6901a625f9a42b51d1112"
@@ -6309,6 +6356,13 @@ redux@^4.0.0, redux@^4.0.4, redux@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/redux/-/redux-4.1.2.tgz#140f35426d99bb4729af760afcf79eaaac407104"
   integrity sha512-SH8PglcebESbd/shgf6mii6EIoRM0zrQyjcuQ+ojmfxjTtE0z9Y8pa62iA/OJ58qjP6j27uyW4kUF4jl/jd6sw==
+  dependencies:
+    "@babel/runtime" "^7.9.2"
+
+redux@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/redux/-/redux-4.2.0.tgz#46f10d6e29b6666df758780437651eeb2b969f13"
+  integrity sha512-oSBmcKKIuIR4ME29/AeNUnl5L+hvBq7OaJWzaptTQJAntaPvxIJqfnjbaEiCzzaIz+XmVILfqAM3Ob0aXLPfjA==
   dependencies:
     "@babel/runtime" "^7.9.2"
 
@@ -6410,6 +6464,11 @@ require-main-filename@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/require-main-filename/-/require-main-filename-2.0.0.tgz#d0b329ecc7cc0f61649f62215be69af54aa8989b"
   integrity sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==
+
+reselect@^4.1.5:
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.1.5.tgz#852c361247198da6756d07d9296c2b51eddb79f6"
+  integrity sha512-uVdlz8J7OO+ASpBYoz1Zypgx0KasCY20H+N8JD13oUMtPvSHQuscrHop4KbXrbsBcdB9Ds7lVK7eRkBIfO43vQ==
 
 resolve-cwd@^3.0.0:
   version "3.0.0"

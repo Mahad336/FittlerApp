@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Image, Text, TouchableOpacity, ScrollView, Button } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Input } from 'react-native-elements';
 import auth from '@react-native-firebase/auth';
 import AppPreLoader from '../AppPreLoader';
+import Toast from 'react-native-toast-message';
+import storage from '@react-native-firebase/storage';
 
 const SignIn = ({ navigation }) => {
 
@@ -40,7 +42,12 @@ const SignIn = ({ navigation }) => {
     setLoader(true)
     if(Email===""||Email===undefined||Email===null||Password===""||Password===null||Password===undefined){
       setLoader(false)
-      alert("please fill All Information")
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'please fill All Information',
+        visibilityTime: 3000,
+      });
     }else{
       auth()
       .signInWithEmailAndPassword(Email, Password)
@@ -81,64 +88,107 @@ const SignIn = ({ navigation }) => {
   return (
     <ScrollView>
       <View style={styles.main}>
-        <Image style={styles.logo} source={require('../../assets/images/logoT.png')} />
+        <Image
+          style={styles.logo}
+          source={require('../../assets/images/logoT.png')}
+        />
 
         <View style={styles.form}>
-
           <Input
-            inputStyle={{ fontSize: 13 }}
-            inputContainerStyle={{ height: 40, ...emailStyle.container }}
-            placeholder='Input Email'
+            inputStyle={{fontSize: 13}}
+            inputContainerStyle={{height: 40, ...emailStyle.container}}
+            placeholder="Input Email"
             label="Email"
             autoFocus
             labelStyle={emailStyle.lable}
-            onChangeText={(t) => SetEmail(t)}
-            onFocus={() => setEmailStyle({ lable: { color: '#007fcb', fontSize: 14, fontFamily:'Jameel Noori Nastaleeq' }, container: { borderBottomColor: '#007fcb', borderBottomWidth: 2 } })}
-            onBlur={() => setEmailStyle({ lable: { color: 'gray', fontSize: 14, fontFamily:'Jameel Noori Nastaleeq' }, container: { borderBottomColor: 'gray', borderBottomWidth: 1 } })}
-            containerStyle={styles.inputContainer}
-            rightIcon={
-              <Icon
-                name='email'
-                size={24}
-                color='#007fcb'
-              />
+            onChangeText={t => SetEmail(t)}
+            onFocus={() =>
+              setEmailStyle({
+                lable: {
+                  color: '#007fcb',
+                  fontSize: 14,
+                  fontFamily: 'Jameel Noori Nastaleeq',
+                },
+                container: {borderBottomColor: '#007fcb', borderBottomWidth: 2},
+              })
             }
+            onBlur={() =>
+              setEmailStyle({
+                lable: {
+                  color: 'gray',
+                  fontSize: 14,
+                  fontFamily: 'Jameel Noori Nastaleeq',
+                },
+                container: {borderBottomColor: 'gray', borderBottomWidth: 1},
+              })
+            }
+            containerStyle={styles.inputContainer}
+            rightIcon={<Icon name="email" size={24} color="#007fcb" />}
           />
-
 
           <Input
-            inputStyle={{ fontSize: 13, }}
-            inputContainerStyle={{ height: 40, ...passwordStyle.container }}
-            placeholder='Input Password'
+            inputStyle={{fontSize: 13}}
+            inputContainerStyle={{height: 40, ...passwordStyle.container}}
+            placeholder="Input Password"
             label="Password"
             secureTextEntry
-           
             labelStyle={passwordStyle.lable}
-            onChangeText={(t) => SetPassword(t)}
-            onFocus={() => setPasswordStyle({ lable: { color: '#007fcb', fontSize: 14,fontFamily:'Jameel Noori Nastaleeq' }, container: { borderBottomColor: '#007fcb', borderBottomWidth: 2 } })}
-            onBlur={() => setPasswordStyle({ lable: { color: 'gray', fontSize: 14, fontFamily:'Jameel Noori Nastaleeq' }, container: { borderBottomColor: 'gray', borderBottomWidth: 1 } })}
-            containerStyle={{ ...styles.inputContainer, marginBottom: 20 }}
-            rightIcon={
-              <Icon
-                name='lock'
-                size={24}
-                color='#007fcb'
-              />
+            onChangeText={t => SetPassword(t)}
+            onFocus={() =>
+              setPasswordStyle({
+                lable: {
+                  color: '#007fcb',
+                  fontSize: 14,
+                  fontFamily: 'Jameel Noori Nastaleeq',
+                },
+                container: {borderBottomColor: '#007fcb', borderBottomWidth: 2},
+              })
             }
+            onBlur={() =>
+              setPasswordStyle({
+                lable: {
+                  color: 'gray',
+                  fontSize: 14,
+                  fontFamily: 'Jameel Noori Nastaleeq',
+                },
+                container: {borderBottomColor: 'gray', borderBottomWidth: 1},
+              })
+            }
+            containerStyle={{...styles.inputContainer, marginBottom: 20}}
+            rightIcon={<Icon name="lock" size={24} color="#007fcb" />}
           />
-          <Text style={{ color: 'red', fontSize: 10, marginBottom: 20, marginLeft: 10 }}>{msg}</Text>
+          <Text
+            style={{
+              color: 'red',
+              fontSize: 10,
+              marginBottom: 20,
+              marginLeft: 10,
+            }}>
+            {msg}
+          </Text>
         </View>
 
-        <TouchableOpacity
-          onPress={() => signin()}
-          style={styles.btn}>
-          <Text style={{ color: "#fff", fontFamily:'Jameel Noori Nastaleeq',fontSize:18}}> Login </Text>
+        <TouchableOpacity onPress={() => setData()} style={styles.btn}>
+          <Text
+            style={{
+              color: '#fff',
+              fontFamily: 'Jameel Noori Nastaleeq',
+              fontSize: 18,
+            }}>
+            {' '}
+            Login{' '}
+          </Text>
         </TouchableOpacity>
 
-
-
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '80%', margin: 30 }}>
-          <TouchableOpacity onPress={() => navigation.navigate('ForgatPassword')}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '80%',
+            margin: 30,
+          }}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ForgatPassword')}>
             <Text style={styles.btnBelow}>Forgot Password</Text>
           </TouchableOpacity>
 
@@ -146,10 +196,6 @@ const SignIn = ({ navigation }) => {
             <Text style={styles.btnBelow}>Register Now</Text>
           </TouchableOpacity>
         </View>
-
-
-
-
       </View>
     </ScrollView>
   );

@@ -1,0 +1,5 @@
+export const ActionTypes = {
+LOGIN_REQUEST: 'LOGIN_REQUEST',
+TEST_ACTION:'TEST_ACTION',
+APP_LOADER: 'APP_LOADER',
+};
