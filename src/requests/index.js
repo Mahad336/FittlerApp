@@ -15,7 +15,6 @@ const signUp = async data => {
 };
 
 const setUserData = async data => {
-  console.log('dataaaa', data)
   try {
     const response = await firestore()
       .collection('users')
@@ -27,4 +26,13 @@ const setUserData = async data => {
   }
 };
 
-export {signUp, setUserData};
+const signIn = async data => {
+  try {
+    const signInResponse = await auth().signInWithEmailAndPassword(data.email, data.password)
+    return signInResponse;
+  } catch (e) {
+    throw new Error(e?.message);
+  }
+};
+
+export {signUp, setUserData, signIn};

@@ -8,31 +8,34 @@ const LoginScreen = ({ navigation }) => {
     <View style={styles.main}>
       <StatusBar backgroundColor="#007fcb" />
 
-      <Image style={styles.logo} source={require('../../assets/images/logoT.png')} />
+      <Image
+        style={styles.logo}
+        source={require('../../assets/images/logoT.png')}
+      />
 
       <View style={styles.login}>
-        <TouchableOpacity style={styles.loginText} onPress={() => navigation.navigate('SignIn')}>
-        <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-        <Icon name="user-lock" size={15} color="#007fcb" /> 
+        <TouchableOpacity
+          style={styles.loginText}
+          onPress={() => navigation.navigate('SignIn')}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Icon name="user-lock" size={15} color="#007fcb" />
             <Text style={styles.txt}> Login</Text>
-           
           </View>
-        <Icon name="arrow-right" size={20} color="#007fcb" />
-        
+          <Icon name="arrow-right" size={20} color="#007fcb" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.loginText} onPress={() => navigation.navigate('SignUp')}>
-        <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-        <Icon name="user-lock" size={15} color="#007fcb" /> 
+        <TouchableOpacity
+          style={styles.loginText}
+          onPress={() => navigation.navigate('SignUp')}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Icon name="user-lock" size={15} color="#007fcb" />
             <Text style={styles.txt}> Register</Text>
-           
           </View>
-        <Icon name="arrow-right" size={20} color="#007fcb" />
-        
+          <Icon name="arrow-right" size={20} color="#007fcb" />
         </TouchableOpacity>
       </View>
     </View>
-  )
+  );
 }
 
 
