@@ -104,8 +104,8 @@ const Intro = ({navigation}) => {
 const slides = [
   {
     key: 's1',
-    title: 'Fittler keeps you',
-    title1: 'connected',
+    title: 'Fittler keeps you in shape,',
+    title1: ' inside out',
     text: 'Find Food Plans that suits your working routine',
     // image: require('../../assets/Intro/logo.png'),
     ImageBackground: require('../../assets/Intro/background.png'),
@@ -123,8 +123,8 @@ const slides = [
   {
     key: 's3',
     title: 'Welcome to',
-    title1: 'The Fittler Team',
-    text: 'Connect with over 10,000  people\n globally today',
+    title1: 'Fittler',
+    text: 'Ciao from a fitverse of over 1000+ people',
     // image: require('../../assets/Intro/logo.png'),
     ImageBackground: require('../../assets/Intro/background3.png'),
     TouchableOpacity: TouchableOpacity,

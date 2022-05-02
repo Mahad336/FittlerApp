@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Dimensions, View, Text, SafeAreaView, StyleSheet, Image, Animated, ScrollView, StatusBar, Button } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import { TouchableOpacity } from 'react-native';
 import { useState, useRef } from 'react';
 import { transform } from '@babel/core';
@@ -257,6 +258,7 @@ export default function Main({ navigation }) {
               </View>
             </TouchableOpacity>
 
+
             <TouchableOpacity
               onPress={() => {
                 if (showMenu) {
@@ -328,6 +330,19 @@ export default function Main({ navigation }) {
               <View style={styles.card}>
                 <Image source={chat} style={styles.cardImg} />
                 <Text style={styles.cardTxt}>Smart Recommendations</Text>
+                <Icon name="chevron-forward-circle" size={25} color="#469433" />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                if (showMenu) {
+                  Drawer();
+                }
+                navigation.navigate('Ranking');
+              }}>
+              <View style={styles.card}>
+                <AntDesign name="totop" color="#007fcb" size={28} />
+                <Text style={styles.cardTxt}>Global Ranking</Text>
                 <Icon name="chevron-forward-circle" size={25} color="#469433" />
               </View>
             </TouchableOpacity>

@@ -18,7 +18,7 @@ import Quotes from './MentalHealth/Quotes';
 import Profile from '../../Screens/Profile/profile';
 import EditProfile from '../../Screens/EditProfile/EditProfile';
 import CaloriesCount from '../../components/appScreens/CaloriesCount/CaloriesCount'
-
+import Ranking from './Ranking/Ranking'
 
 // const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -59,6 +59,7 @@ export default function AppNavigation({initialParams}) {
         <Stack.Screen name="Profile" component={Profile} options={{title:'Profile'}}/>
         <Stack.Screen name="EditProfile" component={EditProfile} options={{title:'Edit Profile'}}/>
         <Stack.Screen name="CaloriesCount" component={CaloriesCount} options={{title:'Calories Count'}}/>
+        <Stack.Screen name="Ranking" component={Ranking} options={{title:'Global Ranking'}}/>
         
     </Stack.Navigator>
   );

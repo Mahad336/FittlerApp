@@ -31,7 +31,7 @@ const LogoutButtomSheet= ({onPress,cancel}) => {
                   marginHorizontal: 5,
                   fontWeight: '600',
                 }}>
-                Logout from gymble
+                Logout from Fittler
               </Text>
             </View>
           </View>
@@ -48,8 +48,7 @@ const LogoutButtomSheet= ({onPress,cancel}) => {
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text
               style={{fontSize: 15, color: '#08101F', marginHorizontal: 20}}>
-              Sorry to see you leave. Are you sure you would like to logout your
-              Fittler account?
+            Your body needs some rest, come back soon
             </Text>
           </View>
         </View>

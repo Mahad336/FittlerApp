@@ -36,13 +36,12 @@ const Profile = () => {
 
       const querySnap = await firestore().collection('users').where('uid', '==', uid).get();
       const ActiveUser = querySnap.docs
-        .map((docsnap) => docsnap.data());
+      .map((docsnap) => docsnap.data());
       setUser(ActiveUser)
       console.log(user)
 
-
     } catch {
-      alert("Please Check Your Internet Connection")
+      alert("Something Went Wrong")
       //do whatever
     }
   };
