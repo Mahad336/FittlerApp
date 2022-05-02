@@ -290,6 +290,22 @@ export default function Main({ navigation }) {
                 if (showMenu) {
                   Drawer();
                 }
+                navigation.navigate('CaloriesCount');
+              }}>
+              <View style={styles.card}>
+                <Image
+                  source={foot}
+                  style={{...styles.cardImg, width: '16%'}}
+                />
+                <Text style={styles.cardTxt}>Calories Count</Text>
+                <Icon name="chevron-forward-circle" size={25} color="#469433" />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                if (showMenu) {
+                  Drawer();
+                }
                 navigation.navigate('Footsteps Counter');
               }}>
               <View style={styles.card}>

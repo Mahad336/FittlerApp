@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
   },
   logout: {
     // marginTop: 30,
-   position: 'absolute',
-   bottom: 0,
+    position: 'absolute',
+    bottom: 0,
   },
   cameraIcon: {
     height: 24,
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     width: 15,
     height: 15,
     marginHorizontal: 10,
-   
+
   },
   subs: {
     width: 18,
@@ -146,5 +146,37 @@ const styles = StyleSheet.create({
     flexDirection: 'row-reverse',
     display: 'flex',
   },
+  mainview:
+  {
+    width: '100%',
+    height: '65%',
+    borderTopWidth: 1,
+    borderTopColor:"grey",
+    marginTop:10, 
+    paddingTop:10 , 
+    
+
+  },
+  fieldview:{
+    width:'90%',
+    height:50, 
+    borderWidth:1,
+    borderRadius:10, 
+    paddingLeft:10, 
+    justifyContent: 'center',
+    marginTop:10, 
+    alignSelf: 'center',
+
+  },
+  attributeheading:{
+    paddingLeft:20, 
+    fontWeight:'bold', 
+    fontSize:18, 
+    color:'black',
+    paddingVertical:5
+  },
+  attributevalue:{
+    color:'black',
+  }
 });
 export default styles;

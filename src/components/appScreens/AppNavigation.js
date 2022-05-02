@@ -17,7 +17,7 @@ import Meditation from './MentalHealth/Meditation';
 import Quotes from './MentalHealth/Quotes';
 import Profile from '../../Screens/Profile/profile';
 import EditProfile from '../../Screens/EditProfile/EditProfile';
-
+import CaloriesCount from '../../components/appScreens/CaloriesCount/CaloriesCount'
 
 
 // const Drawer = createDrawerNavigator();
@@ -58,6 +58,7 @@ export default function AppNavigation({initialParams}) {
         <Stack.Screen name="Quotes" component={Quotes} options={{title:'Quotes'}}/>
         <Stack.Screen name="Profile" component={Profile} options={{title:'Profile'}}/>
         <Stack.Screen name="EditProfile" component={EditProfile} options={{title:'Edit Profile'}}/>
+        <Stack.Screen name="CaloriesCount" component={CaloriesCount} options={{title:'Calories Count'}}/>
         
     </Stack.Navigator>
   );
