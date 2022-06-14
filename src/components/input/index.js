@@ -4,8 +4,16 @@ import {Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const InputCompnent = (props) => {
-    const {placeholder, lable, setValue, iconName, value, secureTextEntry=false} =
-      props;
+    const {
+      placeholder,
+      lable,
+      setValue,
+      iconName,
+      value,
+      secureTextEntry = false,
+      keyboardType,
+      width="100%",
+    } = props;
     const [inputStyle, setInputStyle] = useState({
       lable: {
         color: 'gray',
@@ -22,6 +30,7 @@ const InputCompnent = (props) => {
       inputContainerStyle={{height: 40, ...inputStyle.container}}
       placeholder={placeholder}
       label={lable}
+      keyboardType={keyboardType}
       secureTextEntry={secureTextEntry}
       // autoFocus
       value={value}
@@ -45,7 +54,7 @@ const InputCompnent = (props) => {
           container: {borderBottomColor: 'gray', borderBottomWidth: 1},
         })
       }
-      containerStyle={styles.inputContainer}
+      containerStyle={{...styles.inputContainer, width}}
       rightIcon={<Icon name={iconName} size={24} color="#007fcb" />}
     />
   );};

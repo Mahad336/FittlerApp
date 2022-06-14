@@ -1,35 +1,75 @@
-import React, { Component, useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, ImageBackground, TouchableOpacity, ScrollView, FlatList } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import CircularSlider from 'rn-circular-slider'
-import Glass from '../../../images/WaterGlass.png'
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Button,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native';
 import AppPreLoader from '../AppPreLoader';
-
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import {useSelector, useDispatch} from 'react-redux';
+import {addCalories, updatedCalories} from '../../../redux/action';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 const Tab = createMaterialTopTabNavigator();
-
-import waterData from './CaloriesData';
 import CaloriesData from './CaloriesData';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
-const Water = () => {
+const Water = ({navigation}) => {
+  const [crrDate, setCrrDate] = useState(new Date());
+  const [flag, setFlag] = useState(true);
+  const [totalcalories, setTotalCalories] = useState(0);
+  console.log(crrDate);
+  const dispatch = useDispatch();
 
+  const getCaloriesData = async () => {
+    const {uid} = auth().currentUser;
+    let date = new Date().toISOString().slice(0, 10)
 
-  const [crrDate, setCrrDate] = useState(new Date().getDate())
-  const [flag, setFlag] = useState(true)
-  const [totalcalories, setTotalCalories] = useState(0)
-  console.log(crrDate)
+    try {
+      const res = await firestore()
+      .collection('calories')
+      .doc(uid + ":" + date)
+      .get();
+      const cal = res?._data?.cal;
+      dispatch(updatedCalories(cal));
+    } catch (e) {
+      console.log(e);
+    }
+  
+  };
+
+  const allCalories = useSelector(state => state.testReducer.allCalories);
+  // console.log('ccal', stateData);
 
   useEffect(() => {
-    setFlag(false)
+    setFlag(false);
+    getCaloriesData();
   }, []);
 
-  const renderItem = ({ item, index }) => {
+  const check = async data => {
+    console.log('eeeee', data);
+    const res = await dispatch(
+      addCalories({
+        postData: {
+          data,
+        },
+      }),
+    );
+    navigation.navigate('CaloriesCount');
+  };
+
+  const renderItem = ({item}) => {
     return (
-      <TouchableOpacity onPress={()=>{
-        let num = parseInt(item.Calories);
-        setTotalCalories(totalcalories+num)}} key={index} style={
-        {
+      <TouchableOpacity
+        onPress={() => {
+          let num = parseInt(item.Calories);
+          check(num);
+        }}
+        key={item.food}
+        style={{
           flexDirection: 'row',
           width: '100%',
           backgroundColor: 'white',
@@ -37,61 +77,60 @@ const Water = () => {
           borderBottomColor: 'grey',
           justifyContent: 'space-between',
           paddingHorizontal: 10,
-          paddingVertical: 10
-        }
-      }>
+          paddingVertical: 10,
+        }}>
         <View>
-          <Text style={{ fontWeight: 'bold', color: 'black', fontSize: 16 }}>{item.Food}</Text>
-          <Text style={{ color: 'grey', fontSize: 11, }}>{item.Serving}</Text>
+          <Text style={{fontWeight: 'bold', color: 'black', fontSize: 16}}>
+            {item.Food}
+          </Text>
+          <Text style={{color: 'grey', fontSize: 11}}>{item.Serving}</Text>
         </View>
-        <Text style={{ fontWeight: 'bold', color: 'black', }}>{item.total_Calories}</Text>
+        <Text style={{fontWeight: 'bold', color: 'black'}}>
+          {item.total_Calories}
+        </Text>
       </TouchableOpacity>
-    )
-  }
-
-
+    );
+  };
 
   if (flag) {
-    return (
-      <AppPreLoader />
-    )
+    return <AppPreLoader />;
   } else {
-
     return (
       <View style={styles.container}>
-        <View style={{ alignItems: 'center' }}>
+        <View style={{alignItems: 'center'}}>
           {/* <Slider /> */}
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '90%', alignItems: 'center', height: 100 }}>
-            <Text style={{ color: 'grey' }}>Total Calories Gain Today:</Text>
-            <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }}>{totalcalories}</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              width: '90%',
+              alignItems: 'center',
+              height: 100,
+            }}>
+            <Text style={{color: 'grey'}}>Total Calories Gain Today:</Text>
+            <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
+              {allCalories}
+            </Text>
           </View>
 
           {/* <Text style={{ alignSelf: 'center' }}>Drink a Glass</Text> */}
         </View>
 
-
-        <View style={{ backgroundColor: '#F5FCFF', flex: 1, paddingTop: 10 }}>
-          <FlatList
-            data={CaloriesData}
-            renderItem={renderItem}
-
-          />
+        <View style={{backgroundColor: '#F5FCFF', flex: 1, paddingTop: 10}}>
+          <FlatList data={CaloriesData} renderItem={renderItem} />
         </View>
       </View>
-    )
+    );
   }
-}
+};
 
 export default Water;
-
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
 
     backgroundColor: '#F5FCFF',
-
   },
   contentContainerStyle: {
     justifyContent: 'center',
@@ -100,12 +139,12 @@ const styles = StyleSheet.create({
   value: {
     fontWeight: 'bold',
     fontSize: 24,
-    color: '#007fcb'
+    color: '#007fcb',
   },
   txt: {
     // fontWeight: 'bold',
     fontSize: 15,
-    color: 'black'
+    color: 'black',
   },
   imgBG: {
     position: 'absolute',
@@ -116,7 +155,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     height: 50,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
     // backgroundColor:'red'
   },
   card: {
@@ -130,10 +169,5 @@ const styles = StyleSheet.create({
     padding: 10,
     alignSelf: 'center',
     borderRadius: 10,
-  }
-
+  },
 });
-
-
-
-

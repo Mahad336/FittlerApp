@@ -7,6 +7,7 @@ import {
   Image,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
+import {RadioButton} from 'react-native-paper';
 import {
   EditProfileBusinessIcon,
   EditProfileCircle,
@@ -30,23 +31,41 @@ import PickerButton from '../../components/Button/pickerButton';
 import storage from '@react-native-firebase/storage'
 import firestore from '@react-native-firebase/firestore'
 import Modal from 'react-native-modal';
+import { useDispatch } from 'react-redux';
+import {profileUpdateRequest} from '../../redux/action'
+import {useSelector} from 'react-redux'
+import Input from '../../components/input'
+import Toast from 'react-native-toast-message';
+
+
+
 const EditProfile = ({route}) => {
+  const userData = useSelector(state => state.profileReducer.user)
+  console.log('adadada',userData)
   const [Nfocus, setNFocus] = useState(false);
   const [Efocus, setEFocus] = useState(false);
   const [Pfocus, setPFocus] = useState(false);
   const [Afocus, setAfocus] = useState(false);
 
   const [text, setText] = useState('Edit Profile');
-  const [Age,setAge]=useState(route.params.data[0].age);
-  const [Height,setHeight]=useState(route.params.data[0].height);
-  const [CurrentWeight,setCurrentWeight]=useState(route.params.data[0].currentWeight);
-  const [GoalWeight,setGoalWeight]=useState(route.params.data[0].goalWeight);
+  // const [Age,setAge]=useState(route.params.data[0].age);
+  // const [Height,setHeight]=useState(route.params.data[0].height);
+  // const [CurrentWeight,setCurrentWeight]=useState(route.params.data[0].currentWeight);
+  // const [GoalWeight,setGoalWeight]=useState(route.params.data[0].goalWeight);
+
+  const [Gender, setGender] = React.useState(userData.gender);
+  const [name, setName] = useState(userData.name);
+  const [feet, setFeet] = useState(userData.feet)
+  const [inches, setInches] = useState(userData.inches);
+  const [currentWeight, setCurrentWeight] = useState(userData.currentWeight);
+  const [goalWeight, setGoalWeight] = useState(userData.goalWeight);
+  const [age, setAge] = useState(userData.age);
   
 
-  const [userName,setUserName]=useState(route.params.data[0].name);
+  // const [userName,setUserName]=useState(route.params.data[0].name);
   const [image, setImage] = useState('');
   const [visible, setVisible] = useState(false);
-  const [ImageURL,setImageURL] = useState()
+  const [ImageURL,setImageURL] = useState(userData.img? userData.img: '')
   const navigation = useNavigation();
 
   const takePhotoFromCamera = () => {
@@ -75,7 +94,6 @@ const EditProfile = ({route}) => {
     });
   };
   const takePhotoFromGallery = () => {
-
     setVisible(false);
     ImagePicker.openPicker({
       width: 96,
@@ -85,9 +103,7 @@ const EditProfile = ({route}) => {
       setImage(image.path);
 
       const storageRef = storage().ref().child(`/userprofile/${Date.now()}`)
-            
           const uploadTask = storageRef.putFile(String(image.path))
-          
           uploadTask.on('state_changed', (snapshot) => {
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             if (progress == 100) alert('image uploaded')
@@ -99,21 +115,58 @@ const EditProfile = ({route}) => {
               setImageURL(downloadURL)
             });
           });
-
     });
   };
+  const dispatch = useDispatch();
+  const updateData = () =>{
+    if (ImageURL === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Please Select an Image',
+        visibilityTime: 3000,
+      });
+    } else if (
+      name == '' ||
+      feet == '' ||
+      inches == '' ||
+      currentWeight == '' ||
+      goalWeight == '' ||
+      age == ''
+    ) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Please fill all fields',
+        visibilityTime: 3000,
+      });
+    }else{
+      dispatch(
+        profileUpdateRequest({
+          postData: {
+            name: name,
+            gender: Gender,
+            age: age,
+            feet: feet,
+            inches: inches,
+            currentWeight: currentWeight,
+            goalWeight: goalWeight,
+            img: ImageURL,
+            uid: userData.uid
+          },
+        }),
+      );
+    }
+  }
 
- 
   useEffect(() => {
 // console.log(user[0])
   },[])
   return (
     <SafeAreaView style={styles.container}>
-    
-
       <ScrollView>
         <View style={styles.subContainer}>
-          {image === '' ? (
+          {ImageURL === '' ? (
             <View
               style={{
                 overflow: 'hidden',
@@ -132,7 +185,7 @@ const EditProfile = ({route}) => {
                   width: 100,
                   height: 100,
                 }}>
-                <Image source={{uri: image}} style={styles.circle} />
+                <Image source={{uri: ImageURL}} style={styles.circle} />
               </View>
             </>
           )}
@@ -140,98 +193,112 @@ const EditProfile = ({route}) => {
             <Text style={styles.addLogo}>{text}</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.name}>User Name</Text>
-        </View>
-        <View
-          style={[
-            styles.forminputView,
-            {borderColor: Afocus ? '#000' : '#F2F3F5'},
-          ]}>
-          <FormInput
-            placeholder={'Goal Weight'}
-            placeholderTextColor="#798293"
-            value={userName}
-            onChangeText={text => setUserName(text)}
-            style={{height: 50, borderRadius: 10, fontSize: 15, color: 'black'}}
-          />
-        </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.businessName}>Age</Text>
-        </View>
-        <View
-          style={[
-            styles.forminputView,
-            {borderColor: Nfocus ? '#000' : '#F2F3F5'},
-          ]}>
-        
-          <FormInput
-            placeholder={'Age...'}
-            placeholderTextColor="#798293"
-            onChangeText={text => {
-              setAge(text);
-            }}
-            value={Age}
-            style={{
-              height: 50,
-              borderRadius: 10,
-              fontSize: 15,
-              color: 'black',
-            }}
-          />
-        </View>
+       
 
-        <View style={styles.textContainer}>
-          <Text style={styles.name}>Height</Text>
-        </View>
-        <View
-          style={[
-            styles.forminputView,
-            {borderColor: Efocus ? '#000' : '#F2F3F5'},
-          ]}>
+        {/* input fields form edit data */}
+        <View style={{width: '90%', alignSelf: 'center'}}>
+          <Input
+            placeholder="Input Name"
+            lable="Name"
+            setValue={setName}
+            iconName="account-plus"
+            value={name}
+          />
+
+          <View style={{width: '95%', alignSelf: 'center'}}>
+            <Text
+              style={{
+                textAlign: 'left',
+                // marginLeft: 0,
+                fontWeight: 'bold',
+                color: 'gray',
+                marginBottom: 5,
+              }}>
+              Gender
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginBottom: 40,
+                justifyContent: 'flex-end',
+                // width: '90%',
+                borderBottomWidth: 1,
+                borderColor: 'gray',
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginRight: 30,
+                }}>
+                <Text style={{color: 'black', fontSize: 13}}>Male</Text>
+                <RadioButton
+                  color="#007fcb"
+                  value="male"
+                  status={Gender === 'male' ? 'checked' : 'unchecked'}
+                  onPress={() => setGender('male')}
+                />
+              </View>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Text style={{color: 'black', fontSize: 13}}>Female</Text>
+                <RadioButton
+                  color="#007fcb"
+                  value="female"
+                  status={Gender === 'female' ? 'checked' : 'unchecked'}
+                  onPress={() => setGender('female')}
+                />
+              </View>
+            </View>
+          </View>
+
+          <Input
+            placeholder="age"
+            lable="What is your Age in Years"
+            setValue={setAge}
+            iconName="human-queue"
+            value={age}
+            keyboardType="numeric"
+          />
+
+          <View style={{flexDirection: 'row'}}>
+            <Input
+              placeholder="Feets"
+              lable="Enter Your Height"
+              setValue={setFeet}
+              value={feet}
+              width="50%"
+              keyboardType="numeric"
+            />
+
+            <Input
+              placeholder="Inches"
+              lable="Inches"
+              setValue={setInches}
+              iconName="human-male-height"
+              value={inches}
+              width="50%"
+              keyboardType="numeric"
+            />
+          </View>
+
+          <Input
+            placeholder="weight"
+            lable="Current Weight in KG"
+            setValue={setCurrentWeight}
+            iconName="weight"
+            value={currentWeight}
+            keyboardType="numeric"
+          />
          
-          <FormInput
-            placeholder={'Email...'}
-            placeholderTextColor="#798293"
-            value={Height}
-            onChangeText={text => setHeight(text)}
-            style={{height: 50, borderRadius: 10, fontSize: 15, color: 'black'}}
+          <Input
+            placeholder="weight"
+            lable="Goal Weight in KG"
+            setValue={setGoalWeight}
+            iconName="weight"
+            value={goalWeight}
+            keyboardType="numeric"
           />
         </View>
-
-        <View style={styles.textContainer}>
-          <Text style={styles.name}>CurrentWeight</Text>
-        </View>
-        <View
-          style={[
-            styles.forminputView,
-            {borderColor: Pfocus ? '#000' : '#F2F3F5'},
-          ]}>
-          <FormInput
-            placeholder={"5'9"}
-            placeholderTextColor="#798293"
-            value={CurrentWeight}
-            onChangeText={text => setCurrentWeight(text)}
-            style={{height: 50, borderRadius: 10, fontSize: 15, color: 'black'}}
-          />
-        </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.name}>Goal Weight</Text>
-        </View>
-        <View
-          style={[
-            styles.forminputView,
-            {borderColor: Pfocus ? '#000' : '#F2F3F5'},
-          ]}>
-          <FormInput
-            placeholder={"5'9"}
-            placeholderTextColor="#798293"
-            value={GoalWeight}
-            onChangeText={text => setGoalWeight(text)}
-            style={{height: 50, borderRadius: 10, fontSize: 15, color: 'black'}}
-          />
-        </View>
-
 
         <Modal isVisible={visible}>
           <View style={styles.ModalView}>
@@ -282,11 +349,8 @@ const EditProfile = ({route}) => {
             width={'80%'}
             marginTop={'60%'}
             marginBottom={10}
-            backgroundColor={
-              '#4AB5E3'
-            }
-           
-            onPress={()=>{}}
+            backgroundColor={'#4AB5E3'}
+            onPress={updateData}
           />
         </View>
       </ScrollView>

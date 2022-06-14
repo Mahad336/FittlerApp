@@ -15,7 +15,7 @@ const Covid = ({ navigation, route }) => {
             data != ""?
             <ScrollView>
             <Text style={{ marginLeft: 10, fontSize: 16, fontWeight: 'bold', marginTop: 10 }}>
-                Diets:
+                Better food items to eat:
             </Text>
             {
                 data.diets.map((v, k) => {

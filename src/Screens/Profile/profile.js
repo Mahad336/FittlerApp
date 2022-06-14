@@ -18,6 +18,8 @@ import LogoutButtomSheet from '../../components/LogoutButtomSheet/LogoutButtomSh
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore'
+import { useSelector } from 'react-redux';
+import img from './images/profile.png'
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -25,83 +27,97 @@ const Profile = () => {
   const rbsheetOpen = () => {
     refRBSheet.current.open();
   };
-  const [user, setUser] = useState([{ "age": "loading...", "currentWeight": "loading...", "email": "loading...", "gender": "loading...", "goalWeight": "loading...", "height": "loading...", "name": "loading...", }]);
+  const [bmi, setBmi] = useState('calculating...')
+  const [iw,setiw] = useState('calculating...')
 
+  const userState = useSelector(state => state.profileReducer.user)
 
-  const getUser = async () => {
-    const { uid } = auth().currentUser;
-    console.log(uid)
+  const bmiCal = () =>{
+    var ft = parseInt(userState.feet) * 0.3048;
+    var ich = parseInt(userState.inches) * 0.0254;
+    var mt = ft + ich;
+    var mtSq = mt * mt;
+    var BMI = parseInt(userState?.currentWeight) / mtSq;
+    setBmi(BMI.toFixed(1));
+  }
+  const IdealWeightCal = () =>{
+    var ft = parseInt(userState.feet) * 30.48;
+    var ich = parseInt(userState.inches) * 2.54;
+    var mt = ft + ich;
+    mt = mt/100 
+    var iw = mt;
+    var iwf = iw*44
+    setiw(iwf.toFixed(1))
+  }
 
-    try {
-
-      const querySnap = await firestore().collection('users').where('uid', '==', uid).get();
-      const ActiveUser = querySnap.docs
-      .map((docsnap) => docsnap.data());
-      setUser(ActiveUser)
-      console.log(user)
-
-    } catch {
-      alert("Something Went Wrong")
-      //do whatever
-    }
-  };
-
-  // Get user on mount
+// Get user on mount
   useEffect(() => {
-
-
-    getUser();
+    bmiCal();
+    IdealWeightCal();
   }, []);
   return (
     <SafeAreaView style={styles.container}>
-
-
-
       <View>
         <View style={styles.imageView}>
           <Image
             style={styles.image}
-            source={require('./images/profile.png')}
+            // source={require('./images/profile.png')}
+            source={userState?.img?{uri: userState.img}: img}
           />
           <ProfileCameraIcon style={styles.cameraIcon} />
-          <Text style={styles.profileName}>{user[0].name}</Text>
+          <Text style={styles.profileName}>{userState?.name}</Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('EditProfile',{data:user})}
+            onPress={() => navigation.navigate('EditProfile')}
             style={styles.editProfile}>
             <ProfileEmailIcon style={styles.emailIcon} />
             <Text style={styles.profileEdit}>Edit Profile</Text>
           </TouchableOpacity>
-          <Text style={styles.email}>{user[0].email}</Text>
+          <Text style={styles.email}>{userState?.email}</Text>
         </View>
-
         <View style={styles.mainview}>
           <ScrollView>
+            <Text style={styles.attributeheading}>BMI</Text>
+            <View style={styles.fieldview}>
+              <Text style={styles.attributevalue}>
+                {bmi}
+                {'  '}(
+                 {bmi <= 18.4
+                  ? 'You are under weight'
+                  : bmi >= 18.5 && bmi <= 24.9
+                  ? 'Your have Healthy Weight'
+                  : bmi >= 25
+                  ? 'Your are over weight'
+                  : null}
+                  )
+              </Text>
+            </View>
+
+            <Text style={styles.attributeheading}>Ideal Weight</Text>
+            <View style={styles.fieldview}>
+              <Text style={styles.attributevalue}>
+                {iw} Kg
+                </Text>
+            </View>
             <Text style={styles.attributeheading}>Gender</Text>
             <View style={styles.fieldview}>
-              <Text style={styles.attributevalue}>{user[0].gender}</Text>
+              <Text style={styles.attributevalue}>{userState?.gender}</Text>
             </View>
-            <Text style={styles.attributeheading}>age </Text>
+            <Text style={styles.attributeheading}>Age </Text>
             <View style={styles.fieldview}>
-              <Text style={styles.attributevalue}>{user[0].age}</Text>
+              <Text style={styles.attributevalue}>{userState?.age}</Text>
             </View>
-            <Text style={styles.attributeheading}>current Weight in KG's</Text>
+            <Text style={styles.attributeheading}>Current Weight(KG's)</Text>
             <View style={styles.fieldview}>
-              <Text style={styles.attributevalue}>{user[0].currentWeight}</Text>
+              <Text style={styles.attributevalue}>
+                {userState?.currentWeight}
+              </Text>
             </View>
-            <Text style={styles.attributeheading}>goal Weight in KG's</Text>
+            <Text style={styles.attributeheading}>Goal Weight(KG's)</Text>
             <View style={styles.fieldview}>
-              <Text style={styles.attributevalue}>{user[0].goalWeight}</Text>
-            </View>
-            <Text style={styles.attributeheading}>height</Text>
-            <View style={styles.fieldview}>
-              <Text style={styles.attributevalue}>{user[0].height}</Text>
+              <Text style={styles.attributevalue}>{userState?.goalWeight}</Text>
             </View>
           </ScrollView>
         </View>
-
-
-
-
       </View>
       <View>
         <RBSheet
@@ -110,8 +126,8 @@ const Profile = () => {
           closeOnDragDown={true}
           closeOnPressMask={false}
           customStyles={{
-            wrapper: { backgroundColor: 'rgba(0,0,0,0.4)' },
-            draggableIcon: { backgroundColor: '#D7DADF' },
+            wrapper: {backgroundColor: 'rgba(0,0,0,0.4)'},
+            draggableIcon: {backgroundColor: '#D7DADF'},
             container: {
               borderTopLeftRadius: 20,
               borderTopRightRadius: 20,
@@ -126,7 +142,7 @@ const Profile = () => {
         </RBSheet>
       </View>
 
-      <TouchableOpacity style={styles.logout} onPress={rbsheetOpen}>
+      {/* <TouchableOpacity style={styles.logout} onPress={rbsheetOpen}>
         <View
           style={{
             flexDirection: 'row',
@@ -135,10 +151,9 @@ const Profile = () => {
             marginBottom: 10,
           }}>
           <ProfileLogoutIcon style={styles.wallet} />
-          <Text style={{ color: '#798293', fontSize: 15 }}>Logout</Text>
+          <Text style={{color: '#798293', fontSize: 15}}>Logout</Text>
         </View>
-      </TouchableOpacity>
-
+      </TouchableOpacity> */}
     </SafeAreaView>
   );
 };

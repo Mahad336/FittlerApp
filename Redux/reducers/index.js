@@ -1,16 +1,17 @@
 import {combineReducers} from 'redux';
 import {persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {testReducer} from '../../src/redux/reducer'
+import {testReducer, profileReducer} from '../../src/redux/reducer';
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: [],
+  whitelist: ['profileReducer'],
 };
 
 const rootReducer = combineReducers({
-    testReducer,
+  testReducer,
+  profileReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

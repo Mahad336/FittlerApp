@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
   editProfile: {
     display: 'flex',
     flexDirection: 'row-reverse',
-    marginTop: -22,
+    marginTop: -22 ,
+    
   },
   options: {
     height: 50,
@@ -154,8 +155,6 @@ const styles = StyleSheet.create({
     borderTopColor:"grey",
     marginTop:10, 
     paddingTop:10 , 
-    
-
   },
   fieldview:{
     width:'90%',

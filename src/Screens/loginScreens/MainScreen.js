@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {StackNavigator , useNavigation} from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { Text, Image, View, StyleSheet, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
-
+import { Text, Image, View, StyleSheet, ScrollView, TouchableOpacity, StatusBar, ImagePropTypes } from 'react-native';
 
 const LoginScreen = ({ navigation }) => {
   return (
@@ -16,7 +16,7 @@ const LoginScreen = ({ navigation }) => {
       <View style={styles.login}>
         <TouchableOpacity
           style={styles.loginText}
-          onPress={() => navigation.navigate('SignIn')}>
+          onPress={() => navigation.navigate('SignIn')}> 
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Icon name="user-lock" size={15} color="#007fcb" />
             <Text style={styles.txt}> Login</Text>

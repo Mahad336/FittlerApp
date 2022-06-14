@@ -2,16 +2,24 @@ import React from 'react';
 
 import CircularSlider from 'rn-circular-slider'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ToastAndroid } from 'react-native';
+import { View, Text, TouchableOpacity, Button, StyleSheet, ScrollView, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'
 import RNPickerSelect from 'react-native-picker-select';
 import Icons from 'react-native-vector-icons/MaterialIcons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 const Tab = createMaterialTopTabNavigator();
 import RNShake from 'react-native-shake';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore'
+import Toast from 'react-native-toast-message';
+import { useSelector } from 'react-redux';
+import { connect } from 'react-redux'
+
+
 
 
 export default class FootStepCount extends React.Component {
+
 
   componentDidMount() {
     RNShake.addListener(() => {
@@ -66,7 +74,7 @@ export default class FootStepCount extends React.Component {
         // this.setState({
         //   value: 0
         // })
-        this.state.value=0
+        this.state.value = 0
         this.storeSteps(0)
       }
     } catch (e) {
@@ -109,6 +117,7 @@ export default class FootStepCount extends React.Component {
   }
 
   getSteps = async () => {
+
     try {
       const val = JSON.parse(await AsyncStorage.getItem('walkedSteps'))
       if (val != null) {
@@ -175,44 +184,73 @@ export default class FootStepCount extends React.Component {
 
 
 
-  
 
 
+  AddToGlobalRanking = async () => {
+
+
+    const { uid } = auth().currentUser;
+    var date = new Date();
+    var dateToday = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`;
+    try {
+      const response = await firestore()
+        .collection('users')
+        .doc(uid)
+        .collection('caloriesBurned')
+        .doc(dateToday)
+        .set({ caloriesBurned: data });
+      Toast.show({
+        type: 'success',
+        text1: 'Success',
+        text2: "You Have been added Successfully",
+        visibilityTime: 3000,
+      });
+    } catch (e) {
+      Toast.show({
+        type: 'Error',
+        text1: 'Error',
+        text2: e?.message,
+        visibilityTime: 3000,
+      });
+    }
+
+
+  }
 
   render() {
     return (
+      <Today />
+      // <Tab.Navigator screenOptions={({ route }) => ({
+      //   tabBarIcon: ({ focused, color, size }) => {
+      //     let IconName;
+      //     if (route.name == 'Today') {
+      //       IconName = 'home'
+      //     }
+      //     if (route.name == 'Settings') {
+      //       IconName = 'settings'
+      //     }
+      //     return <Icon name={IconName} size={20} color={color} />
+      //   }
+      // })}
 
-      <Tab.Navigator screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let IconName;
-          if (route.name == 'Today') {
-            IconName = 'home'
-          }
-          if (route.name == 'Settings') {
-            IconName = 'settings'
-          }
-          return <Icon name={IconName} size={20} color={color} />
-        }
-      })}
-
-        tabBarOptions={{
-          activeTintColor: '#007fcb',
-          inactiveTintColor: 'gray',
-          showIcon: true,
-          indicatorStyle: {
-            backgroundColor: '#007fcb'
-          },
-          labelStyle: {
-            fontWeight: 'bold',
-            textTransform: 'capitalize'
-          },
-          tabStyle: {
-            flexDirection: 'row'
-          }
-        }}>
-        <Tab.Screen name="Today" component={Today}  options={{ title: "Today", }} />
-        <Tab.Screen name="Settings" component={Settings} initialParams={{'storeGoal':this.storeStepGoal,'storeLength':this.storeStepLength}} options={{ title: 'Settings' }} />
-      </Tab.Navigator>
+      //   tabBarOptions={{
+      //     activeTintColor: '#007fcb',
+      //     inactiveTintColor: 'gray',
+      //     showIcon: true,
+      //     indicatorStyle: {
+      //       backgroundColor: '#007fcb'
+      //     },
+      //     labelStyle: {
+      //       fontWeight: 'bold',
+      //       textTransform: 'capitalize'
+      //     },
+      //     tabStyle: {
+      //       flexDirection: 'row'
+      //     }
+      //   }}>
+      //   {/* <Tab.Screen name="Today" component={Today} options={{ title: "Today", }} /> */}
+      //   {/* <Tab.Screen name="Settings" component={Settings} initialParams={{ 'storeGoal': this.storeStepGoal, 'storeLength': this.storeStepLength }} options={{ title: 'Settings' }} /> */}
+      // </Tab.Navigator>
     )
   }
 }
@@ -294,19 +332,19 @@ const pickerSelectStyles = StyleSheet.create({
 });
 
 
-class Today extends FootStepCount{
-  render(){
+class Today extends FootStepCount {
+  render() {
     return (
       <View style={styles.container}>
-      
+
         <ScrollView>
-  
+
           <CircularSlider
             style={{ marginTop: 30 }}
             // step={200}
             min={0}
             max={this.state.totalStep}
-            value={this.state.value <= this.state.totalStep? this.state.value : this.state.totalStep}
+            value={this.state.value <= this.state.totalStep ? this.state.value : this.state.totalStep}
             contentContainerStyle={styles.contentContainerStyle}
             strokeWidth={10}
             buttonStrokeWidth={10}
@@ -316,50 +354,115 @@ class Today extends FootStepCount{
           >
             <Text style={styles.value}>{this.state.value}/{this.state.totalStep}</Text>
             <Text style={styles.txt}>Daily Target</Text>
+
           </CircularSlider>
-  
-  
-  
+
+          <Button
+            onPress={async () => {
+              // userState?.name
+              const { uid } = auth().currentUser;
+              try {
+                const names = await firestore()
+                  .collection('users')
+                  .doc(uid)
+                  .get()
+                  
+                  let date = new Date().toISOString().slice(0, 10)
+                  var data = (this.state.value * (this.state.stepLength / 100000)).toFixed(3) * 80
+                  try {
+                    //  const response= await firestore.collection('/burnt-calories-entry')
+                    //   .where('date', 'in', [...date])
+                    //   .where('uid', '==', uid)
+    
+                    console.log(names?._data?.name)
+                    const response = await firestore()
+                      .collection('calories_burned')
+                      .doc(uid + ":" + date)
+                      .set({
+                        caloriesBurned: data,
+                        date: date,
+                        uid: uid,
+                        name:names?._data?.name
+    
+                      });
+                    Toast.show({
+                      type: 'success',
+                      text1: 'Success',
+                      text2: "You Have been added Successfully",
+                      visibilityTime: 3000,
+                    });
+                  } catch (e) {
+                    Toast.show({
+                      type: 'error',
+                      text1: 'Error',
+                      text2: e?.message,
+                      visibilityTime: 3000,
+                    });
+                  }
+    
+    
+              } catch (e) {
+                alert('Error: ' + e.message)
+              }
+
+
+
+
+              // var date = new Date();
+              // var dateToday = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`;
+            
+            }}
+            title="Add to Global-Ranking" />
+
+
+
+          <View style={styles.card}>
+            <Text style={styles.heading}>Today's Calories Burned:</Text>
+            <Text style={styles.text}>{(this.state.value * (this.state.stepLength / 100000)).toFixed(3) * 80} <Text style={{ color: 'gray', fontSize: 14 }}>cal</Text></Text>
+          </View>
+
           <View style={styles.card}>
             <Text style={styles.heading}>Today's Distance Covered:</Text>
             <Text style={styles.text}>{(this.state.value * (this.state.stepLength / 100000)).toFixed(3)} <Text style={{ color: 'gray', fontSize: 14 }}>Km</Text></Text>
           </View>
-  
-  
+
+
+
+
           <View style={{ ...styles.card, flexDirection: 'column', alignItems: 'flex-start' }}>
             <Text style={{ fontSize: 16, marginBottom: 10, fontWeight: 'bold', color: 'gray' }}>Last Week Record</Text>
-  
-  
+
+
             <View style={styles.days}>
               <Text style={{ ...styles.heading, marginTop: 10 }}>{this.state.tody != 0 ? this.state.days[this.state.tody - 1] : this.state.days[this.state.week.length - 1]}</Text>
               <Text style={styles.innerTxt}>{this.state.tody != 0 ? this.state.week[this.state.tody - 1] : this.state.week[this.state.week.length - 1]} <Text style={{ fontSize: 12, color: 'gray' }}>Km</Text></Text>
             </View>
-  
+
             <View style={styles.days}>
               <Text style={{ ...styles.heading, marginTop: 10 }}>{this.state.tody > 1 ? this.state.days[this.state.tody - 2] : this.state.days[this.state.week.length - 2 + this.state.tody]}</Text>
               <Text style={styles.innerTxt}>{this.state.tody > 1 ? this.state.week[this.state.tody - 2] : this.state.week[this.state.week.length - 2 + this.state.tody]} <Text style={{ fontSize: 12, color: 'gray' }}>Km</Text></Text>
             </View>
-  
+
             <View style={styles.days}>
               <Text style={{ ...styles.heading, marginTop: 10 }}>{this.state.tody > 2 ? this.state.days[this.state.tody - 3] : this.state.days[this.state.week.length - 3 + this.state.tody]}</Text>
               <Text style={styles.innerTxt}>{this.state.tody > 2 ? this.state.week[this.state.tody - 3] : this.state.week[this.state.week.length - 3 + this.state.tody]} <Text style={{ fontSize: 12, color: 'gray' }}>Km</Text></Text>
             </View>
-  
+
             <View style={styles.days}>
               <Text style={{ ...styles.heading, marginTop: 10 }}>{this.state.tody > 3 ? this.state.days[this.state.tody - 4] : this.state.days[this.state.week.length - 4 + this.state.tody]}</Text>
               <Text style={styles.innerTxt}>{this.state.tody > 3 ? this.state.week[this.state.tody - 4] : this.state.week[this.state.week.length - 4 + this.state.tody]} <Text style={{ fontSize: 12, color: 'gray' }}>Km</Text></Text>
             </View>
-  
+
             <View style={styles.days}>
               <Text style={{ ...styles.heading, marginTop: 10 }}>{this.state.tody > 4 ? this.state.days[this.state.tody - 5] : this.state.days[this.state.week.length - 5 + this.state.tody]}</Text>
               <Text style={styles.innerTxt}>{this.state.tody > 4 ? this.state.week[this.state.tody - 5] : this.state.week[this.state.week.length - 5 + this.state.tody]} <Text style={{ fontSize: 12, color: 'gray' }}>Km</Text></Text>
             </View>
-  
+
             <View style={styles.days}>
               <Text style={{ ...styles.heading, marginTop: 10 }}>{this.state.tody > 5 ? this.state.days[this.state.tody - 6] : this.state.days[this.state.week.length - 6 + this.state.tody]}</Text>
               <Text style={styles.innerTxt}>{this.state.tody > 5 ? this.state.week[this.state.tody - 6] : this.state.week[this.state.week.length - 6 + this.state.tody]} <Text style={{ fontSize: 12, color: 'gray' }}>Km</Text></Text>
             </View>
-  
+
           </View>
         </ScrollView>
       </View>
@@ -367,7 +470,7 @@ class Today extends FootStepCount{
   }
 }
 
-class Settings extends FootStepCount{
+class Settings extends FootStepCount {
   item = [
     { label: '1000', value: 1000 },
     { label: '2000', value: 2000 },
@@ -420,13 +523,13 @@ class Settings extends FootStepCount{
     value: null,
     color: '#007fcb',
   }
-  render(){
+  render() {
     console.log(this.state.stepLength)
     return (
       <View style={styles.container}>
         <View style={{ ...styles.card, marginTop: 30 }}>
           <Text style={styles.heading}>Step Goal</Text>
-  
+
           <RNPickerSelect
             itemKey={1}
             useNativeAndroidPickerStyle={false}
@@ -437,10 +540,10 @@ class Settings extends FootStepCount{
             Icon={() => { return (<Icons name="arrow-drop-down" size={30} color='#007fcb' />); }}
           />
         </View>
-  
+
         <View style={{ ...styles.card, }}>
           <Text style={styles.heading}>Step Length</Text>
-  
+
           <RNPickerSelect
             itemKey={1}
             useNativeAndroidPickerStyle={false}

@@ -53,7 +53,7 @@ const Category = ({ navigation, route }) => {
               <Text style={styles.btnTxt}>Non-Veg</Text>
             </TouchableOpacity> */}
             <TouchableOpacity onPress={()=>navigation.navigate('CatogaryDetail',{data:vegan, title1:route.params.cat, title2:'vegan'})} style={styles.btn}>
-              <Text style={styles.btnTxt}>Vegan</Text>
+              <Text style={styles.btnTxt}>Non Veg</Text>
             </TouchableOpacity>
           </View>
         </View>

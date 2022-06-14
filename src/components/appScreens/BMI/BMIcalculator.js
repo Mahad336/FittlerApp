@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Input } from 'react-native-elements';
+import { BmiContext } from '../../../global/BmiContext';
 
 const BMI = () => {
   const [feet, setFeet] = useState("");
   const [inches, setInches] = useState("");
   const [weight, setWeight] = useState("");
   const [bmi, setBmi] = useState();
+
+  const[, setBMI] = useContext(BmiContext);
 
   // BMI calculation
   const cal = () => {
@@ -20,6 +23,7 @@ const BMI = () => {
       var mtSq = mt * mt;
       var BMI = parseInt(weight) / mtSq;
       setBmi(BMI.toFixed(1));
+      setBMI(BMI.toFixed(1));
     }
   }
 

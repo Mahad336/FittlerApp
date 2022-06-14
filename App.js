@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import {StyleSheet, Text, View, Button, TextInput} from 'react-native';
+import {StyleSheet, Modal, Text, View, Button, TextInput} from 'react-native';
 import React, {useState, useEffect, Component} from 'react';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -22,6 +22,7 @@ import AppNavigation from './src/components/appScreens/AppNavigation';
 import SplashScreen from 'react-native-splash-screen';
 import AppIntro from './src/Screens/loginScreens/AppIntro';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+import BmiProvider from './src/global/BmiContext';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -47,17 +48,17 @@ function Login() {
 
   if (initializing) return null;
 
-  if (loader) {
-    return (
-      <Stack.Navigator>
-        <Stack.Screen
-          name="AppPreLoader"
-          component={AppPreLoader}
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
-    );
-  }
+  // if (loader) {
+  //   return (
+  //     <Stack.Navigator>
+  //       <Stack.Screen
+  //         name="AppPreLoader"
+  //         component={AppPreLoader}
+  //         options={{headerShown: false}}
+  //       />
+  //     </Stack.Navigator>
+  //   );
+  // }
 
   if (!user) {
     return (
@@ -94,13 +95,21 @@ function Login() {
   return <AppNavigation initialParams={{user: user}} />;
 }
 
-// const App = () => {
-//   return (
-//     <NavigationContainer>
-//       <Login />
-//     </NavigationContainer>
-//   );
-// };
+const Navigation = () => {
+  const loader = useSelector(state => state.testReducer.appLoader);
+  return (
+    <>
+      <NavigationContainer>
+        <Login />
+      </NavigationContainer>
+
+      <Toast ref={Toast.setRef} />
+      <Modal visible={loader} transparent>
+        <AppPreLoader />
+      </Modal>
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
   txt: {
@@ -113,10 +122,9 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <NavigationContainer>
-          <Login />
-        </NavigationContainer>
-        <Toast ref={Toast.setRef} />
+        <BmiProvider>
+          <Navigation />
+        </BmiProvider>
       </PersistGate>
     </Provider>
   );

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React,{useEffect} from 'react';
 import { Dimensions, View, Text, SafeAreaView, StyleSheet, Image, Animated, ScrollView, StatusBar, Button } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -225,7 +225,7 @@ export default function Main({ navigation }) {
               }}>
               <View style={styles.card}>
                 <Image source={workout} style={styles.cardImg} />
-                <Text style={styles.cardTxt}>Daily Workouts for Home</Text>
+                <Text style={styles.cardTxt}>Workouts for Home</Text>
                 <Icon name="chevron-forward-circle" size={25} color="#469433" />
               </View>
             </TouchableOpacity>
@@ -239,7 +239,7 @@ export default function Main({ navigation }) {
               }}>
               <View style={styles.card}>
                 <Image source={diet} style={styles.cardImg} />
-                <Text style={styles.cardTxt}>Diets</Text>
+                <Text style={styles.cardTxt}>Diet Recipies</Text>
                 <Icon name="chevron-forward-circle" size={25} color="#469433" />
               </View>
             </TouchableOpacity>
@@ -257,37 +257,8 @@ export default function Main({ navigation }) {
                 <Icon name="chevron-forward-circle" size={25} color="#469433" />
               </View>
             </TouchableOpacity>
-
-
-            <TouchableOpacity
-              onPress={() => {
-                if (showMenu) {
-                  Drawer();
-                }
-                navigation.navigate('Water');
-              }}>
-              <View style={styles.card}>
-                <Image source={water} style={styles.cardImg} />
-                <Text style={styles.cardTxt}>Water Tracker</Text>
-                <Icon name="chevron-forward-circle" size={25} color="#469433" />
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                if (showMenu) {
-                  Drawer();
-                }
-                navigation.navigate('BMI');
-              }}>
-              <View style={styles.card}>
-                <Image source={bmi} style={styles.cardImg} />
-                <Text style={styles.cardTxt}>Calculate Your BMI</Text>
-                <Icon name="chevron-forward-circle" size={25} color="#469433" />
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
+  
+              <TouchableOpacity
               onPress={() => {
                 if (showMenu) {
                   Drawer();
@@ -320,19 +291,7 @@ export default function Main({ navigation }) {
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => {
-                if (showMenu) {
-                  Drawer();
-                }
-                navigation.navigate('Chats');
-              }}>
-              <View style={styles.card}>
-                <Image source={chat} style={styles.cardImg} />
-                <Text style={styles.cardTxt}>Smart Recommendations</Text>
-                <Icon name="chevron-forward-circle" size={25} color="#469433" />
-              </View>
-            </TouchableOpacity>
+            
             <TouchableOpacity
               onPress={() => {
                 if (showMenu) {
@@ -346,6 +305,83 @@ export default function Main({ navigation }) {
                 <Icon name="chevron-forward-circle" size={25} color="#469433" />
               </View>
             </TouchableOpacity>
+            
+            
+            
+          <TouchableOpacity
+              onPress={() => {
+                if (showMenu) {
+                  Drawer();
+                }
+                navigation.navigate('DietPlan');
+              }}>
+              <View style={styles.card}>
+                <Image source={chat} style={styles.cardImg} />
+                <Text style={styles.cardTxt}>Weekly Diet Chart </Text>
+                <Icon name="chevron-forward-circle" size={25} color="#469433" />
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                if (showMenu) {
+                  Drawer();
+                }
+                navigation.navigate('RecommendedDiets');
+              }}>
+              <View style={styles.card}>
+                <Image source={chat} style={styles.cardImg} />
+                <Text style={styles.cardTxt}>Recommended Diet</Text>
+                <Icon name="chevron-forward-circle" size={25} color="#469433" />
+              </View>
+            </TouchableOpacity>
+
+
+
+            <TouchableOpacity
+              onPress={() => {
+                if (showMenu) {
+                  Drawer();
+                }
+                navigation.navigate('Water');
+              }}>
+              <View style={styles.card}>
+                <Image source={water} style={styles.cardImg} />
+                <Text style={styles.cardTxt}>Water Tracker</Text>
+                <Icon name="chevron-forward-circle" size={25} color="#469433" />
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                if (showMenu) {
+                  Drawer();
+                }
+                navigation.navigate('BMI');
+              }}>
+              <View style={styles.card}>
+                <Image source={bmi} style={styles.cardImg} />
+                <Text style={styles.cardTxt}>Find Your BMI</Text>
+                <Icon name="chevron-forward-circle" size={25} color="#469433" />
+              </View>
+            </TouchableOpacity>
+
+
+            <TouchableOpacity
+              onPress={() => {
+                if (showMenu) {
+                  Drawer();
+                }
+                navigation.navigate('Chats');
+              }}>
+              <View style={styles.card}>
+                <Image source={chat} style={styles.cardImg} />
+                <Text style={styles.cardTxt}>Bot</Text>
+                <Icon name="chevron-forward-circle" size={25} color="#469433" />
+              </View>
+            </TouchableOpacity>
+
+
           </ScrollView>
         </Animated.View>
       </Animated.View>
